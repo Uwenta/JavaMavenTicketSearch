@@ -3,10 +3,13 @@ package ru.netology;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Comparator;
+
 public class TicketManagerTest {
 
     TicketRepository repo = new TicketRepository();
     TicketManager manager = new TicketManager(repo);
+    TicketByTravelTimeComparator comparator = new TicketByTravelTimeComparator();
 
     Ticket ticket1 = new Ticket(1, 1_999, "SVO", "SVX", 95);
     Ticket ticket2 = new Ticket(2, 2_999, "LED", "SVX", 110);
@@ -30,8 +33,8 @@ public class TicketManagerTest {
         repo.save(ticket8);
         repo.save(ticket9);
 
-        Ticket[] actual = manager.findAll("SVO", "AER");
-        Ticket[] expected = {ticket8, ticket6, ticket7, ticket9, ticket5};
+        Ticket[] actual = manager.findAll("SVO", "AER", comparator);
+        Ticket[] expected = {ticket5, ticket8, ticket9, ticket6, ticket7};
 
         Assertions.assertArrayEquals(actual, expected);
     }
@@ -46,7 +49,7 @@ public class TicketManagerTest {
         repo.save(ticket6);
         repo.save(ticket7);
 
-        Ticket[] actual = manager.findAll("SVO", "IKT");
+        Ticket[] actual = manager.findAll("SVO", "IKT", comparator);
         Ticket[] expected = {};
 
         Assertions.assertArrayEquals(actual, expected);
@@ -62,7 +65,7 @@ public class TicketManagerTest {
         repo.save(ticket6);
         repo.save(ticket7);
 
-        Ticket[] actual = manager.findAll("BTK", "SVX");
+        Ticket[] actual = manager.findAll("BTK", "SVX", comparator);
         Ticket[] expected = {};
 
         Assertions.assertArrayEquals(actual, expected);
@@ -78,7 +81,7 @@ public class TicketManagerTest {
         repo.save(ticket6);
         repo.save(ticket7);
 
-        Ticket[] actual = manager.findAll("BTK", "ASF");
+        Ticket[] actual = manager.findAll("BTK", "ASF", comparator);
         Ticket[] expected = {};
 
         Assertions.assertArrayEquals(actual, expected);
